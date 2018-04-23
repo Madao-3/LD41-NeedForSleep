@@ -3,4 +3,4 @@ NeedForSleep, a tiny little game for
 LD41's Theme: Combine 2 Incompatible Genres
 
 
-[](https://static.jam.vg/raw/b6c/31/z/10967.png)
+[](https://ws1.sinaimg.cn/large/006tNc79ly1fqma3ys7h9j31b00uytiw.jpg)
