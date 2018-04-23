@@ -9,7 +9,7 @@ class Player {
 		return this
 	}
 	initPlayer (game) {
-		let player = game.add.sprite(33, 26, 'main', 0);
+		let player = game.add.sprite(31, 31, 'main', 0);
     player.smoothed = false;
     player.scale.set(1.8);
 
@@ -91,6 +91,16 @@ class Player {
 				break;
 			}
 			case 99: {
+				if (this.holyGrailed) {
+					pos[0] += x;
+					pos[1] += y;
+					break;
+				} else {
+					state = 'not_working';
+					break;
+				}
+			}
+			case 100: {
 				alert('you win! thank you for playing my game!')
 				location.reload();
 				return

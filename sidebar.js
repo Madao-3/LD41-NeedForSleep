@@ -12,8 +12,6 @@ class Sidebar {
 		}
 		
 		document.getElementById('run-button').onclick = () => {
-		// this.list = [{"event":"down"},{"event":"if","condition":"block"},{"event":"right"},{"event":"if","condition":"block"},{"event":"up"},{"event":"if","condition":"block"},{"event":"left"},{"event":"if","condition":"pm"},{"event":"kill"}]
-
 			if (this.list.length == 0) {
 				alert('select action please')
 				return
@@ -23,7 +21,7 @@ class Sidebar {
 	}
 	
 	run() {
-		let limitCounter = 1000
+		let limitCounter = 0
 		player.animateStop()
 		let index = 0;
 		let pos = [1,1]
@@ -31,7 +29,7 @@ class Sidebar {
 	}
 	
 	step(index, state, pos, limitCounter) {
-		limitCounter--;
+		limitCounter++;
 		let mapData = window.map.layers[0].data
 		let result = {};
 		if (state == 'not_working') index++;
@@ -76,11 +74,12 @@ class Sidebar {
 			}
 			case 'pm': {
 				if (mapData[pos[0]][pos[1]].properties.name == 'pm') {
+					debugger
 					if (!player.holyGrailed) {
-						alert('you die, try harder.');
-						location.reload();
+						result = player.run(pos, [0, 0], mapData)
+					} else {
+						result = player.run(pos, [-1, 0], mapData)
 					}
-					result = player.run(pos, [-1, 0], mapData)
 					index++;
 				} else {
 					index+=2;
@@ -100,9 +99,13 @@ class Sidebar {
 		}
 		pos = result.pos || pos
 		state = result.state
-		_player.position.x = pos[0] * 31
-		_player.position.y = pos[1] * 31
-		if (limitCounter <= 0) return;
+		_player.position.x = pos[0] * 32
+		_player.position.y = pos[1] * 32
+		if (limitCounter >= 100) {
+			alert('your player walks too much!');
+			return;;
+		}
+		document.getElementById('count').innerHTML = limitCounter
 		setTimeout(() => {
 			return this.step(index, state, pos, limitCounter)
 		}, 100)
@@ -178,11 +181,11 @@ class Sidebar {
 				alert('where is the if?')
 				return				
 			} else {
-				html = `<li class="condition">(${event})</li><ul>`
+				html = `<li class="condition">if(${event})</li><ul>`
 				this.state = 'ifdone'
 				this.condition = event
 			}
-			let data = this.list.pop
+			this.list.pop()
 			params = {condition: event}
 			event = 'if'
 			break;
